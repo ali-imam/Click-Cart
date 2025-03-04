@@ -1,0 +1,65 @@
+﻿
+@* <div> *@
+@*     <h1> *@
+@*         login page *@
+@*     </h1> *@
+@* </div> *@
+
+@model Click_Cart.Models.User
+
+@* @{ *@
+@*     ViewData["Title"] = "Login"; *@
+@* } *@
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-primary bg-gradient ">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="text-center text-white">Login</h1>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body p-4 bg-light">
+        <form method="post" action="@Url.Action("Index", "Login")" class="row" autocomplete="off">
+            <div class="border p-3 d-flex flex-column">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Email" class="form-control border-0 shadow bg-light" autofocus />
+                    <label asp-for="Email" class="ms-2">Email Id</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12 password-section position-relative">
+                    <input type="password" asp-for="Password" id="password-field" class="form-control border-0 shadow bg-light" />
+                    <span asp-validation-for="Password"  class="fa fa-eye-slash text-primary position-absolute" id="togglePassword"></span>
+                    <label asp-for="Password" class="ms-2">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="col-12 d-flex justify-content-center mt-2">
+                    <input type="submit" value="Login" class="btn btn-primary btn-lg col-12" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous">
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+             $("#togglePassword").click(function() {
+
+              const passwordInput = $("#password-field");
+              const icon = $("#togglePassword");
+              const type = passwordInput.attr("type") === "password" ? "text" : "password";
+
+              passwordInput.attr("type", type);
+
+              // Toggle classes correctly
+              icon.toggleClass("fa-eye fa-eye-slash");
+             });
+        });
+    </script>
+}
