@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Click_Cart.Areas.User.Controllers
+namespace Click_Cart.Areas.Customer.Controllers
 {
     public class UserHomeController : Controller
     {

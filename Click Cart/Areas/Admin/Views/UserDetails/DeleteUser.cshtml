@@ -1,14 +1,10 @@
-﻿@* <div> *@
-@*     <h1> *@
-@*         register page *@
-@*     </h1> *@
-@* </div> *@
+﻿
 
 @model Click_Cart.Models.User
 
-@* @{ *@
-@*     ViewData["Title"] = "Register"; *@
-@* } *@
+ @{ 
+     ViewData["UserData"] = "User";
+ } 
 
 <div class="d-flex justify-content-center align-items-center h-100">
     <div class="card shadow border-0 mt-4 col-6">
@@ -16,37 +12,37 @@
         <div class="card-header bg-primary bg-gradient ">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h1 class="text-center text-white mt-2">Register Account</h1>
+                    <h1 class="text-center text-white mt-2">Delete User</h1>
                 </div>
             </div>
 
         </div>
         <div class="card-body p-4">
-            <form asp-action="Index" method="post" class="row">
+            <form asp-action="DeleteUser" method="post" class="row">
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="border p-3">
 
-                    <input asp-for="UserId" value="0" class="form-control border-0 shadow" hidden />
+                    <input asp-for="UserId" hidden />
 
                     <div class="form-floating py-2 col-12">
-                        <input asp-for="UserName" class="form-control border-0 shadow border-0 shadow" />
-                        <label asp-for="UserName">Name <span class="text-danger h4">*</label>
+                        <input asp-for="UserName" class="form-control border-0 shadow border-0 shadow" disabled />
+                        <label asp-for="UserName">Name</label>
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-floating py-2 col-12">
-                        <input asp-for="Email" class="form-control border-0 shadow" />
-                        <label asp-for="Email">Email <span class="text-danger h4">*</label>
+                        <input asp-for="Email" class="form-control border-0 shadow" disabled />
+                        <label asp-for="Email">Email</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-floating py-2 col-12">
-                        <input asp-for="Password" class="form-control border-0 shadow border-0 shadow" />
-                        <label asp-for="Password">Password <span class="text-danger h4">*</label>
+                        <input asp-for="Password" class="form-control border-0 shadow border-0 shadow" disabled />
+                        <label asp-for="Password">Password</label>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-floating py-2 col-12">
-                        <input asp-for="Phone" class="form-control border-0 shadow" />
-                        <label asp-for="Phone">Phone <span class="text-danger h4">*</label>
+                        <input asp-for="Phone" class="form-control border-0 shadow" disabled/>
+                        <label asp-for="Phone">Phone</label>
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
                     @* <div class="form-floating py-2 col-12"> *@
@@ -56,8 +52,11 @@
                     @* </div> *@
                     <input asp-for="Role" value="User" class="form-control border-0 shadow" hidden />
 
-                    <div class="form-group mt-2">
-                        <input type="submit" value="Register" class="btn btn-primary col-12" />
+                    <div class="row mt-4 d-flex justify-content-center">
+                        <div class="row col-12 ">
+                            <a asp-area="Admin" asp-controller="UserDetails" asp-action="Index" class="btn btn-dark border btn-md col-12 col-sm-6 p-2">Back To List</a>
+                            <button type="submit" asp-area="Admin" asp-controller="UserDetails" asp-action="DeleteUser" class="btn btn-danger border btn-md col-12 col-sm-6 p-2">Delete User</button>
+                        </div>
                     </div>
                 </div>
             </form>

@@ -27,7 +27,7 @@ namespace ClickCartAPI.Model
             //);
 
             //modelBuilder.Entity<Product>().HasData(
-            //    new { ProductId = 1, CategoryId = 1, ProductName = "watch", Description = "ifhiehfoiwehf", Price = "2200", StockQuantity = 20 }
+            //    new { ProductId = 1, CategoryId = 1, ProductName = "watch", Description = "ifhiehfoiwehf", Price = "2200", StockQuantity = 20, ProductImg = "/images/products/first.webp" }
             //    );
 
             //modelBuilder.Entity<Payment>().HasData(

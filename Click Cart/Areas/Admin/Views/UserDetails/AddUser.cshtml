@@ -1,10 +1,4 @@
-﻿@* <div> *@
-@*     <h1> *@
-@*         register page *@
-@*     </h1> *@
-@* </div> *@
-
-@model Click_Cart.Models.User
+﻿@model Click_Cart.Models.User
 
 @* @{ *@
 @*     ViewData["Title"] = "Register"; *@
@@ -22,7 +16,7 @@
 
         </div>
         <div class="card-body p-4">
-            <form asp-action="Index" method="post" class="row">
+            <form asp-action="AddUser" method="post" class="row">
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="border p-3">
@@ -56,8 +50,11 @@
                     @* </div> *@
                     <input asp-for="Role" value="User" class="form-control border-0 shadow" hidden />
 
-                    <div class="form-group mt-2">
-                        <input type="submit" value="Register" class="btn btn-primary col-12" />
+                    <div class="row mt-4 d-flex justify-content-center">
+                        <div class="row col-12 ">
+                            <a asp-area="Admin" asp-controller="UserDetails" asp-action="Index" class="btn btn-dark border btn-md col-12 col-sm-6 p-2">Back To List</a>
+                            <button type="submit" asp-area="Admin" asp-controller="UserDetails" asp-action="AddUser" class="btn btn-primary border btn-md col-12 col-sm-6 p-2">Add User</button>
+                        </div>
                     </div>
                 </div>
             </form>

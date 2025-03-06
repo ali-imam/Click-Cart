@@ -1,0 +1,73 @@
+﻿@model Click_Cart.Models.Product
+
+@{
+    ViewData["ProductData"] = "Product";
+}
+
+<div class="d-flex justify-content-center align-items-center h-100">
+    <div class="card shadow border-0 mt-4 col-6">
+        @* <div class="card shadow border-0 mt-4" style="margin-bottom:80px"> *@
+        <div class="card-header bg-primary bg-gradient ">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-center text-white mt-2">Delete Product</h1>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="DeleteProduct" method="post" class="row">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="border p-3">
+
+                    <input asp-for="ProductId" hidden />
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="ProductName" class="form-control border-0 shadow border-0 shadow" disabled />
+                        <label asp-for="ProductName">Name</label>
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Description" class="form-control border-0 shadow" disabled />
+                        <label asp-for="Description">Description</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Price" class="form-control border-0 shadow border-0 shadow" disabled />
+                        <label asp-for="Price">Price</label>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="StockQuantity" class="form-control border-0 shadow" disabled />
+                        <label asp-for="StockQuantity">StockQuantity</label>
+                        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="ProductImg" class="form-control border-0 shadow" disabled />
+                        <label asp-for="ProductImg">ProductImg</label>
+                        <span asp-validation-for="ProductImg" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="CategoryId" class="form-control border-0 shadow" disabled />
+                        <label asp-for="CategoryId">CategoryId</label>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mt-4 d-flex justify-content-center">
+                        <div class="row col-12 ">
+                            <a asp-area="Admin" asp-controller="ProductDetails" asp-action="Index" class="btn btn-dark border btn-md col-12 col-sm-6 p-2">Back To List</a>
+                            <button type="submit" asp-area="Admin" asp-controller="ProductDetails" asp-action="DeleteProduct" class="btn btn-danger border btn-md col-12 col-sm-6 p-2">Delete Product</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
