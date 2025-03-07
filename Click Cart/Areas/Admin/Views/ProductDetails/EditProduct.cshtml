@@ -16,7 +16,7 @@
 
         </div>
         <div class="card-body p-4">
-            <form asp-action="EditProduct" method="post" class="row">
+            <form asp-action="EditProduct" method="post" class="row" enctype="multipart/form-data">
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="border p-3">
@@ -44,9 +44,9 @@
                         <span asp-validation-for="StockQuantity" class="text-danger"></span>
                     </div>
                     <div class="form-floating py-2 col-12">
-                        <input asp-for="ProductImg" class="form-control border-0 shadow" />
-                        <label asp-for="ProductImg">ProductImg <span class="text-danger h4">*</label>
-                        <span asp-validation-for="ProductImg" class="text-danger"></span>
+                        <input asp-for=ProductImg type="file" name="ProductImg" class="form-control border-0 shadow" accept="image/*" />
+                        <label asp-for=ProductImg class="ms-2">Upload Product Picture<span class="text-danger h4">*</label>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
                     <div class="form-floating py-2 col-12">
                         <input asp-for="CategoryId" class="form-control border-0 shadow" />

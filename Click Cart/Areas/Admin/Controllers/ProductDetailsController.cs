@@ -1,5 +1,7 @@
-﻿using Click_Cart.Helpers;
+﻿using Click_Cart.Areas.Customer.Controllers;
+using Click_Cart.Helpers;
 using Click_Cart.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -12,6 +14,12 @@ namespace Click_Cart.Areas.Admin.Controllers
         private string ProductURL = "https://localhost:7016/api/Product/";
         HttpClient client = new HttpClient();
 
+
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductDetailsController(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
 
 
 
@@ -43,32 +51,52 @@ namespace Click_Cart.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddProduct(Product product)
+        public IActionResult AddProduct(Product product, IFormFile? ProductImg)
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+                if (ProductImg != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ProductImg.FileName);
+                    string productPath = Path.Combine(wwwRootPath, "images", "products");
+                    string fullPath = Path.Combine(productPath, fileName);
+
+                    // ✅ Delete existing file if it exists
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+
+                    // ✅ Ensure proper file access settings
+                    using (var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                    {
+                        ProductImg.CopyTo(fileStream);
+                    }
+
+                    product.ProductImg = @"\images\products\" + fileName; 
+                }
 
                 var data = JsonConvert.SerializeObject(product);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(ProductURL, content).Result;
+
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "Product updated successfully!";
                     return RedirectToAction("Index", "ProductDetails");
                 }
                 else
                 {
                     return BadRequest();
                 }
+            }
 
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid Details");
-                return RedirectToAction("AddProduct", "ProductDetails");
-            }
+            // ✅ Show validation errors properly
+            ModelState.AddModelError("", "Invalid Details");
             return View();
         }
+
 
 
 
@@ -105,33 +133,96 @@ namespace Click_Cart.Areas.Admin.Controllers
         }
 
 
+
         [HttpPost]
-        public IActionResult EditProduct(Product product)
+        public IActionResult EditProduct(Product product, IFormFile? ProductImg)
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
 
-                var data = JsonConvert.SerializeObject(product);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PutAsync(ProductURL + product.ProductId, content).Result;
+                if (ProductImg != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ProductImg.FileName);
+                    string productPath = Path.Combine(wwwRootPath, "images", "products");
+                    string fullPath = Path.Combine(productPath, fileName);
+
+                    // ✅ Delete existing file if it exists to prevent file locking issues
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+
+                    // ✅ Ensure proper file access settings
+                    using (var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                    {
+                        ProductImg.CopyTo(fileStream);
+                    }
+
+                    product.ProductImg = @"\images\products\" + fileName;
+                }
+
+                // ✅ Get existing products from API
+                HttpResponseMessage response = client.GetAsync(ProductURL).Result;
+
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "Product updated successfully!";
-                    return RedirectToAction("Index", "ProductDetails");
+                    string content = response.Content.ReadAsStringAsync().Result;
+                    var data = JsonConvert.DeserializeObject<List<Product>>(content);
+
+                    if (data != null)
+                    {
+                        var temp = data.Find(e => e.ProductId == product.ProductId);
+                        if (temp != null)
+                        {
+                            // ✅ Update product details
+                            temp.ProductName = product.ProductName;
+                            temp.Description = product.Description;
+                            temp.Price = product.Price;
+                            temp.StockQuantity = product.StockQuantity;
+                            temp.CategoryId = product.CategoryId;
+
+                            if (ProductImg != null)
+                            {
+                                temp.ProductImg = product.ProductImg;
+                            }
+
+                            // ✅ Send updated data via PUT request
+                            var productData = JsonConvert.SerializeObject(temp);
+                            StringContent productContent = new StringContent(productData, Encoding.UTF8, "application/json");
+                            HttpResponseMessage productResponse = client.PutAsync(ProductURL + temp.ProductId, productContent).Result;
+
+                            if (!productResponse.IsSuccessStatusCode)
+                            {
+                                return BadRequest("Failed to update product.");
+                            }
+                        }
+                    }
+
+                    ViewData["ProductData"] = product;
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest("Failed to retrieve products.");
                 }
 
+                //TempData["success"] = "Product updated successfully!";
+                return RedirectToAction("Index", "ProductDetails");
             }
             else
             {
-                ModelState.AddModelError("", "Invalid Details");
-                return RedirectToAction("EditProduct", "ProductDetails");
+                ModelState.AddModelError("", "Invalid details entered");
+                return View();
             }
-            return View();
         }
+
+
+
+
+
+
+
+
 
 
         [HttpGet]

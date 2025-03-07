@@ -38,3 +38,16 @@ header,footer{
         font-size: 15px;
         z-index: 1;
     }
+
+.fixed-card {
+    min-height: 350px; /* Adjust based on content */
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.fixed-image {
+    width: 100%; /* Ensure full width inside the card */
+    height: 250px; /* Set a fixed height for uniformity */
+    object-fit:contain /* Ensures images maintain aspect ratio and fill the space */
+}

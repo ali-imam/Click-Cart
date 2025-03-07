@@ -74,7 +74,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Invalid Details");
                 return RedirectToAction("AddUser", "UserDetails");
             }
-            return View();
         }
 
 
@@ -137,7 +136,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Invalid Details");
                 return RedirectToAction("EditUser", "UserDetails");
             }
-            return View();
         }
 
 
