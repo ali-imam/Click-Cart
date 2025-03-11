@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClickCartAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250304063046_TablesAdded")]
-    partial class TablesAdded
+    [Migration("20250310043229_DbInitialised")]
+    partial class DbInitialised
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,55 @@ namespace ClickCartAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            AddressId = 1,
+                            City = "Mumbai",
+                            Country = "India",
+                            State = "Maharashtra",
+                            Street = "Colaba",
+                            UserId = 1,
+                            ZipCode = 400614
+                        });
+                });
+
+            modelBuilder.Entity("ClickCartAPI.Model.Cart", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
+
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductImg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.Category", b =>
@@ -77,6 +126,13 @@ namespace ClickCartAPI.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Fashion"
+                        });
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.Order", b =>
@@ -106,6 +162,15 @@ namespace ClickCartAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderId = 1,
+                            Status = "Shipped",
+                            TotalAmount = "4400",
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.OrderItem", b =>
@@ -139,6 +204,16 @@ namespace ClickCartAPI.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderItemId = 1,
+                            OrderId = 1,
+                            ProductId = 1,
+                            Quantity = 2,
+                            SubTotal = "4400"
+                        });
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.Payment", b =>
@@ -165,6 +240,15 @@ namespace ClickCartAPI.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Payments");
+
+                    b.HasData(
+                        new
+                        {
+                            PaymentId = 1,
+                            OrderId = 1,
+                            PaymentMethod = "UPI",
+                            PaymentStatus = "Pending"
+                        });
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.Product", b =>
@@ -186,6 +270,9 @@ namespace ClickCartAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProductImg")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -198,6 +285,18 @@ namespace ClickCartAPI.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CategoryId = 1,
+                            Description = "ifhiehfoiwehf",
+                            Price = "2200",
+                            ProductImg = "/images/products/first.webp",
+                            ProductName = "watch",
+                            StockQuantity = 20
+                        });
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.User", b =>
@@ -231,6 +330,26 @@ namespace ClickCartAPI.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Email = "mohddwasi@gmail.com",
+                            Password = "wasi#Passorwd90",
+                            Phone = "8692051488",
+                            Role = "User",
+                            UserName = "Wasi"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Email = "aliimam@gmail.com",
+                            Password = "ali#Passorwd91",
+                            Phone = "8692051488",
+                            Role = "Admin",
+                            UserName = "Ali"
+                        });
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.Address", b =>
@@ -240,6 +359,25 @@ namespace ClickCartAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ClickCartAPI.Model.Cart", b =>
+                {
+                    b.HasOne("ClickCartAPI.Model.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClickCartAPI.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
