@@ -14,7 +14,6 @@ namespace ClickCartAPI.Model
         public DbSet<Product> Products { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Cart> Carts { get; set; }
@@ -35,13 +34,8 @@ namespace ClickCartAPI.Model
                 new { PaymentId = 1, OrderId = 1, PaymentMethod = "UPI", PaymentStatus = "Pending" }
                 );
 
-
-            modelBuilder.Entity<OrderItem>().HasData(
-                new { OrderItemId = 1, OrderId = 1, ProductId = 1, Quantity = 2, SubTotal = "4400" }
-                );
-
             modelBuilder.Entity<Order>().HasData(
-                new { OrderId = 1, UserId = 1, TotalAmount = "4400", Status = "Shipped" }
+                new { OrderId = 1, UserId = 1, ProductId = 1, Quantity = 2, Status = "Shipped" }
                 );
             modelBuilder.Entity<Category>().HasData(
                 new { CategoryId = 1, CategoryName = "Fashion" }

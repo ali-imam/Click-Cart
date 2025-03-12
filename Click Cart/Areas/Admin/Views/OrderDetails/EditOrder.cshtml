@@ -1,0 +1,72 @@
+﻿@model Click_Cart.Models.Order
+
+@{
+    ViewData["OrderData"] = "Order";
+}
+
+<div class="d-flex justify-content-center align-items-center h-100">
+    <div class="card shadow border-0 mt-4 col-6">
+        @* <div class="card shadow border-0 mt-4" style="margin-bottom:80px"> *@
+        <div class="card-header bg-primary bg-gradient ">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-center text-white mt-2">Edit Order</h1>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="EditOrder" method="post" class="row">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="border p-3">
+
+                    <input asp-for="OrderId" hidden />
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="UserId" hidden />
+                        <input asp-for="UserId" class="form-control border-0 shadow border-0 shadow" disabled/>
+                        <label asp-for="UserId">User Id </label>
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="ProductId" hidden />
+                        <input asp-for="ProductId" class="form-control border-0 shadow" disabled />
+                        <label asp-for="ProductId">Product Id </label>
+                        <span asp-validation-for="ProductId" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Quantity" hidden />
+                        <input asp-for="Quantity" class="form-control border-0 shadow border-0 shadow" disabled />
+                        <label asp-for="Quantity">Quantity </label>
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="OrderDate" hidden />
+                        <input asp-for="OrderDate" class="form-control border-0 shadow" disabled />
+                        <label asp-for="OrderDate">Order Date </label>
+                        <span asp-validation-for="OrderDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Status" class="form-control border-0 shadow" />
+                        <label asp-for="Status">Status</label>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mt-4 d-flex justify-content-center">
+                        <div class="row col-12 ">
+                            <a asp-area="Admin" asp-controller="UserDetails" asp-action="Index" class="btn btn-dark border btn-md col-12 col-sm-6 p-2">Back To List</a>
+                            <button type="submit" asp-area="Admin" asp-controller="OrderDetails" asp-action="EditOrder" class="btn btn-primary border btn-md col-12 col-sm-6 p-2">Update User</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

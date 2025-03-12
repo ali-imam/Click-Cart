@@ -9,6 +9,7 @@ namespace Click_Cart.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly string CartURL = "https://localhost:7016/api/Cart/";
+        private readonly string OrderURL = "https://localhost:7016/api/Order/";
         private readonly string ProductURL = "https://localhost:7016/api/Product/";
         private readonly HttpClient client = new HttpClient();
 
@@ -74,7 +75,7 @@ namespace Click_Cart.Areas.Customer.Controllers
         }
 
 
-
+        [HttpPost]
         public IActionResult Minus(int cartId)
         {
             HttpResponseMessage cartResponse = client.GetAsync($"{CartURL}{cartId}").Result;
@@ -101,7 +102,7 @@ namespace Click_Cart.Areas.Customer.Controllers
         }
 
 
-
+        [HttpPost]
         public IActionResult Remove(int cartId)
         {
             HttpResponseMessage response = client.DeleteAsync(CartURL + cartId).Result;
@@ -113,5 +114,64 @@ namespace Click_Cart.Areas.Customer.Controllers
             return NotFound();
         }
 
-    }
+
+
+
+        [HttpPost]
+        public IActionResult Order()
+        {
+            List<Cart> cart = new List<Cart>();
+            HttpResponseMessage response = client.GetAsync(CartURL).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<Cart>>(content);
+                if (data != null)
+                {
+                    cart = data.Where(i => i.UserId == HttpContext.Session.GetInt32("UserId")).ToList();
+                }
+                
+            }
+
+            foreach(var cartitem in cart)
+            {
+                // Create Order object
+                var orderItem = new Order
+                {
+                    UserId = (int)HttpContext.Session.GetInt32("UserId"), // Replace with actual logged-in user ID
+                    ProductId = cartitem.ProductId,
+                    Quantity = cartitem.Quantity,
+                    OrderDate = DateTime.Today,
+                    Status = "In Progress"
+                };
+
+
+                 
+
+                var jsonData = JsonConvert.SerializeObject(orderItem);
+                StringContent content1 = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                // Send the request to the API
+                HttpResponseMessage response1 = client.PostAsync(OrderURL, content1).Result;
+
+                if (!response1.IsSuccessStatusCode)
+                {
+                    return BadRequest($"Failed to place order for Product ID {cartitem.ProductId}");
+                }
+
+                // **Delete the cart item after placing the order**
+                HttpResponseMessage deleteResponse = client.DeleteAsync($"{CartURL}+{cartitem.CartId}").Result;
+                if (!deleteResponse.IsSuccessStatusCode)
+                {
+                    return BadRequest($"Failed to remove cart item ID {cartitem.CartId} after ordering.");
+                }
+            }
+            return RedirectToAction("Index","Order");
+        }
+
+
+
+
+}
 }

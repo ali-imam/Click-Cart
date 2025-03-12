@@ -23,7 +23,7 @@
                     return;
                 }
             }
-            else if (context.Request.Path.StartsWithSegments("/User"))
+            else if (context.Request.Path.StartsWithSegments("/Customer"))
             {
                 var UserRole = context.Session.GetString("UserRole");
                 if (UserRole != "User")

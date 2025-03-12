@@ -13,8 +13,13 @@ namespace ClickCartAPI.Model
 
         [JsonIgnore]
         public User? User { get; set; }
+        public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
+
+        [JsonIgnore]
+        public Product? Product { get; set; }
         public DateTime? OrderDate { get; set; } = DateTime.Now;
-        public string TotalAmount { get; set; }
+        public int Quantity { get; set; }
         public string Status { get; set; }
     }
 }

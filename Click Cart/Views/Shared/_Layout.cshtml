@@ -21,18 +21,33 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ViewCart">View Cart</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ViewCart">Order History</a>
-                        </li>
+                    @if (Context.Session.GetString("UserRole") == "Admin")
+                    {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="OrderDetails" asp-action="Index">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="CategoryDetails" asp-action="Index">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="ProductDetails" asp-action="Index">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="UserDetails" asp-action="Index">Users</a>
+                            </li>
+                    }
+                    else
+                    {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index">My Cart</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Customer" asp-controller="Order" asp-action="Index">Order History</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Customer" asp-controller="UserHome" asp-action="Index">Home</a>
+                            </li>
+                    }
                     </ul>
                 </div>
             </div>
