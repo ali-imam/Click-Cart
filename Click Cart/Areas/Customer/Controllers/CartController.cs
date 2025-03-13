@@ -13,7 +13,7 @@ namespace Click_Cart.Areas.Customer.Controllers
         private readonly string ProductURL = "https://localhost:7016/api/Product/";
         private readonly HttpClient client = new HttpClient();
 
-        //// GET: Display the cart
+        // GET: Display the cart
         [HttpGet]
         public IActionResult Index()
         {
@@ -167,6 +167,7 @@ namespace Click_Cart.Areas.Customer.Controllers
                     return BadRequest($"Failed to remove cart item ID {cartitem.CartId} after ordering.");
                 }
             }
+            TempData["success"] = "Order placed successfully!";
             return RedirectToAction("Index","Order");
         }
 

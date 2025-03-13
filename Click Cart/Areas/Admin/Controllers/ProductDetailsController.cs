@@ -63,13 +63,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                     string productPath = Path.Combine(wwwRootPath, "images", "products");
                     string fullPath = Path.Combine(productPath, fileName);
 
-                    // ✅ Delete existing file if it exists
-                    if (System.IO.File.Exists(fullPath))
-                    {
-                        System.IO.File.Delete(fullPath);
-                    }
 
-                    // ✅ Ensure proper file access settings
                     using (var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
                         ProductImg.CopyTo(fileStream);
@@ -84,6 +78,7 @@ namespace Click_Cart.Areas.Admin.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["success"] = "Product added successfully!";
                     return RedirectToAction("Index", "ProductDetails");
                 }
                 else
@@ -92,7 +87,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                 }
             }
 
-            // ✅ Show validation errors properly
             ModelState.AddModelError("", "Invalid Details");
             return View();
         }
@@ -147,13 +141,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                     string productPath = Path.Combine(wwwRootPath, "images", "products");
                     string fullPath = Path.Combine(productPath, fileName);
 
-                    // ✅ Delete existing file if it exists to prevent file locking issues
-                    if (System.IO.File.Exists(fullPath))
-                    {
-                        System.IO.File.Delete(fullPath);
-                    }
-
-                    // ✅ Ensure proper file access settings
                     using (var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
                         ProductImg.CopyTo(fileStream);
@@ -162,7 +149,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                     product.ProductImg = @"\images\products\" + fileName;
                 }
 
-                // ✅ Get existing products from API
                 HttpResponseMessage response = client.GetAsync(ProductURL).Result;
 
                 if (response.IsSuccessStatusCode)
@@ -175,7 +161,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                         var temp = data.Find(e => e.ProductId == product.ProductId);
                         if (temp != null)
                         {
-                            // ✅ Update product details
                             temp.ProductName = product.ProductName;
                             temp.Description = product.Description;
                             temp.Price = product.Price;
@@ -187,7 +172,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                                 temp.ProductImg = product.ProductImg;
                             }
 
-                            // ✅ Send updated data via PUT request
                             var productData = JsonConvert.SerializeObject(temp);
                             StringContent productContent = new StringContent(productData, Encoding.UTF8, "application/json");
                             HttpResponseMessage productResponse = client.PutAsync(ProductURL + temp.ProductId, productContent).Result;
@@ -206,7 +190,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                     return BadRequest("Failed to retrieve products.");
                 }
 
-                //TempData["success"] = "Product updated successfully!";
+                TempData["success"] = "Product updated successfully!";
                 return RedirectToAction("Index", "ProductDetails");
             }
             else
@@ -254,7 +238,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                 HttpResponseMessage response = client.DeleteAsync(ProductURL + product.ProductId).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "Product deleted successfully!";
+                    TempData["success"] = "Product deleted successfully!";
                     return RedirectToAction("Index", "ProductDetails", new { area = "Admin" });
                 }
             }

@@ -70,7 +70,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                 HttpResponseMessage response = client.PutAsync(OrderURL + order.OrderId, content).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "Order updated successfully!";
+                    TempData["success"] = "Order updated successfully!";
                     return RedirectToAction("Index", "OrderDetails");
                 }
                 else

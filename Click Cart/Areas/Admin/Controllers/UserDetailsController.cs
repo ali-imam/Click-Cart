@@ -5,6 +5,7 @@ using System.Security.Policy;
 using Click_Cart.Helpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
+using System.Security.Cryptography;
 using System;
 namespace Click_Cart.Areas.Admin.Controllers
 {
@@ -54,13 +55,13 @@ namespace Click_Cart.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                user.Password = HashPassword(user.Password);
                 var data = JsonConvert.SerializeObject(user);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(UserURL, content).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "User updated successfully!";
+                    TempData["success"] = "User added successfully!";
                     return RedirectToAction("Index", "UserDetails");
                 }
                 else
@@ -75,16 +76,6 @@ namespace Click_Cart.Areas.Admin.Controllers
                 return RedirectToAction("AddUser", "UserDetails");
             }
         }
-
-
-
-
-
-
-
-
-
-
 
 
         //EDIT
@@ -116,14 +107,14 @@ namespace Click_Cart.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                    var data = JsonConvert.SerializeObject(user);
+                user.Password = HashPassword(user.Password);
+                var data = JsonConvert.SerializeObject(user);
                     StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.PutAsync(UserURL + user.UserId, content).Result;
                     if (response.IsSuccessStatusCode)
                     {
-                        //TempData["success"] = "User updated successfully!";
-                        return RedirectToAction("Index", "UserDetails");
+                        TempData["success"] = "User updated successfully!";
+                    return RedirectToAction("Index", "UserDetails");
                     }
                     else
                     {
@@ -168,7 +159,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                 HttpResponseMessage response = client.DeleteAsync(UserURL + user.UserId).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "User deleted successfully!";
+                    TempData["success"] = "User deleted successfully!";
                     return RedirectToAction("Index", "UserDetails", new { area = "Admin" });
                 }
             }
@@ -176,6 +167,24 @@ namespace Click_Cart.Areas.Admin.Controllers
         }
 
 
+
+
+        public static string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                //compute hash
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder sb = new StringBuilder();
+                foreach (var b in hashedBytes)
+                {
+                    //convert hashedBytes to its hexadecimal equivalent
+                    sb.Append(b.ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
+        }
 
     }
 }

@@ -61,6 +61,7 @@ namespace Click_Cart.Areas.Customer.Controllers
             HttpResponseMessage response = client.PostAsync(CartURL, content).Result;
             if (response.IsSuccessStatusCode)
             {
+                TempData["success"] = "Product Added!";
                 return RedirectToAction("Index","Cart");
             }
             return BadRequest();

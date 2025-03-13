@@ -14,7 +14,8 @@ namespace Click_Cart.Areas.Common.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            Response.Headers["Cache-Control"] = "no-cache, no-store";
+            //HttpContext.Session.Clear();
+            //Response.Headers["Cache-Control"] = "no-cache, no-store";
             List<Product> product = new List<Product>();
             HttpResponseMessage response = client.GetAsync(ProductURL).Result;
             if (response.IsSuccessStatusCode)

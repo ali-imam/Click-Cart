@@ -61,7 +61,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                 HttpResponseMessage response = client.PostAsync(CategoryURL, content).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "Category updated successfully!";
+                    TempData["success"] = "Category added successfully!";
                     return RedirectToAction("Index", "CategoryDetails");
                 }
                 else
@@ -123,7 +123,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                 HttpResponseMessage response = client.PutAsync(CategoryURL + category.CategoryId, content).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "Category updated successfully!";
+                    TempData["success"] = "Category updated successfully!";
                     return RedirectToAction("Index", "CategoryDetails");
                 }
                 else
@@ -168,8 +168,8 @@ namespace Click_Cart.Areas.Admin.Controllers
                 HttpResponseMessage response = client.DeleteAsync(CategoryURL + category.CategoryId).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //TempData["success"] = "Category deleted successfully!";
-                    return RedirectToAction("Index", "CategoryDetails", new { area = "Admin" });
+                    TempData["success"] = "Category deleted successfully!";
+                return RedirectToAction("Index", "CategoryDetails", new { area = "Admin" });
                 }
 
             return NotFound();

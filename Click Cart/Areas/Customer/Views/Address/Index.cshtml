@@ -1,0 +1,66 @@
+﻿@model Click_Cart.Models.Address
+
+
+<div class="d-flex justify-content-center align-items-center h-100">
+    <div class="card shadow border-0 mt-4 col-6">
+        @* <div class="card shadow border-0 mt-4" style="margin-bottom:80px"> *@
+        <div class="card-header bg-primary bg-gradient ">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-center text-white mt-2">Add Address</h1>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="AddUser" method="post" class="row">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="border p-3">
+
+                    <input asp-for="AddressId" value="0" class="form-control border-0 shadow" hidden />
+                    <input asp-for="UserId" value="" class="form-control border-0 shadow" hidden />
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Street" class="form-control border-0 shadow border-0 shadow" />
+                        <label asp-for="Street">Street <span class="text-danger h4">*</label>
+                        <span asp-validation-for="Street" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="City" class="form-control border-0 shadow" />
+                        <label asp-for="City">City <span class="text-danger h4">*</label>
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="State" class="form-control border-0 shadow border-0 shadow" />
+                        <label asp-for="State">State <span class="text-danger h4">*</label>
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="ZipCode" class="form-control border-0 shadow" />
+                        <label asp-for="ZipCode">ZipCode <span class="text-danger h4">*</label>
+                        <span asp-validation-for="ZipCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Country" class="form-control border-0 shadow" />
+                        <label asp-for="Country">Country <span class="text-danger h4">*</label>
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mt-4 d-flex justify-content-center">
+                        <div class="row col-12 ">
+                            <a asp-area="Customer" asp-controller="Address" asp-action="Index" class="btn btn-dark border btn-md col-12 col-sm-6 p-2">Back To List</a>
+                            <button type="submit" asp-area="Customer" asp-controller="Address" asp-action="AddAddress" class="btn btn-primary border btn-md col-12 col-sm-6 p-2">Add Address</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
