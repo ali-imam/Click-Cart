@@ -94,8 +94,8 @@
     </header>
 
 
-    <div class="container w-100 p-0" id="main" style="height:80%">
-        <main role="main" class="h-100" >
+    <div class="container-fluid" id="main" style="height:80%; overflow:auto; padding-left:10%; padding-right:10%">
+        <main role="main" class=" w-100">
             <partial name="_Notification" />
             @RenderBody()
             <div class="modal" id="LogoutModel" tabindex="-1">

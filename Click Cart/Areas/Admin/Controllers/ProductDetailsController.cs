@@ -3,6 +3,7 @@ using Click_Cart.Helpers;
 using Click_Cart.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -11,8 +12,11 @@ namespace Click_Cart.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductDetailsController : Controller
     {
+        private string CategoryURL = "https://localhost:7016/api/Category/";
         private string ProductURL = "https://localhost:7016/api/Product/";
         HttpClient client = new HttpClient();
+
+        public IEnumerable<SelectListItem> categoryName { get; set; }
 
 
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -46,6 +50,22 @@ namespace Click_Cart.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
+            HttpResponseMessage response = client.GetAsync(CategoryURL).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<Category>>(content);
+                if (data != null)
+                {
+                    categoryName = data.Select(t => new SelectListItem
+                    {
+                        Text = t.CategoryName,
+                        Value = t.CategoryId.ToString()
+                    }).ToList();
+                }
+            }
+            // Convert teams to SelectListItem for dropdown
+            ViewData["Category"] = categoryName;
 
             return View();
         }
@@ -123,6 +143,22 @@ namespace Click_Cart.Areas.Admin.Controllers
                 }
 
             }
+            HttpResponseMessage categoryResponse = client.GetAsync(CategoryURL).Result;
+            if (categoryResponse.IsSuccessStatusCode)
+            {
+                string content = categoryResponse.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<Category>>(content);
+                if (data != null)
+                {
+                    categoryName = data.Select(t => new SelectListItem
+                    {
+                        Text = t.CategoryName,
+                        Value = t.CategoryId.ToString()
+                    }).ToList();
+                }
+            }
+            // Convert teams to SelectListItem for dropdown
+            ViewData["Category"] = categoryName;
             return View(product);
         }
 
@@ -226,6 +262,22 @@ namespace Click_Cart.Areas.Admin.Controllers
                 }
 
             }
+            HttpResponseMessage categoryResponse = client.GetAsync(CategoryURL).Result;
+            if (categoryResponse.IsSuccessStatusCode)
+            {
+                string content = categoryResponse.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<Category>>(content);
+                if (data != null)
+                {
+                    categoryName = data.Select(t => new SelectListItem
+                    {
+                        Text = t.CategoryName,
+                        Value = t.CategoryId.ToString()
+                    }).ToList();
+                }
+            }
+            // Convert teams to SelectListItem for dropdown
+            ViewData["Category"] = categoryName;
             return View(product);
         }
 

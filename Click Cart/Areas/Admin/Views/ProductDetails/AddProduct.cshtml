@@ -48,11 +48,20 @@
                         <label asp-for=ProductImg class="ms-2">Upload Product Picture<span class="text-danger h4">*</label>
                         <span asp-validation-for="ProductImg" class="text-danger"></span>
                     </div>
+                    @* <div class="form-floating py-2 col-12"> *@
+                    @*     <input asp-for="CategoryId" class="form-control border-0 shadow" /> *@
+                    @*     <label asp-for="CategoryId">CategoryId <span class="text-danger h4">*</label> *@
+                    @*     <span asp-validation-for="CategoryId" class="text-danger"></span> *@
+                    @* </div> *@
+
                     <div class="form-floating py-2 col-12">
-                        <input asp-for="CategoryId" class="form-control border-0 shadow" />
-                        <label asp-for="CategoryId">CategoryId <span class="text-danger h4">*</label>
+                        <select asp-for="CategoryId" asp-items="@ViewData["Category"] as IEnumerable<SelectListItem>" class="form-control border-0 shadow">
+                            <option disabled value="">-- Select Category --</option>
+                        </select>
+                        <label asp-for="CategoryId">Category Name <span class="text-danger h4">*</label>
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
+
 
                     <div class="row mt-4 d-flex justify-content-center">
                         <div class="row col-12 ">
