@@ -1,7 +1,36 @@
-﻿
+﻿@{
+    @ViewData["Category"] ;
+}
 <div class="row pb-3">
+
+    <div class="d-flex align-items-center mt-3 ">
+      @* <div class="justify-content-center rounded w-50 pr-4"> *@
+      @*       <select class="form-select" aria-label="Default select example"> *@
+      @*           <option selected>Choose Category</option> *@
+      @*           <option value="1">one</option> *@
+      @*           <option value="2">Two</option> *@
+      @*           <option value="3">Three</option> *@
+      @*       </select> *@
+      @*   </div>  *@
+
+        @* <div> *@
+        @*     <select asp-for="CategoryId" asp-items="@ViewData["Category"] as IEnumerable<SelectListItem>" class="form-control border-0 shadow"> *@
+        @*         <option disabled value="">-- Select Category --</option> *@
+        @*     </select> *@
+        @*     <label asp-for="CategoryId">Category Name <span class="text-danger h4">*</label> *@
+        @*     <span asp-validation-for="CategoryId" class="text-danger"></span> *@
+        @* </div>  *@
+
+        <div class="input-group rounded  justify-content-center w-50 pl-4">
+            <input type="search" onkeyup="search_products()" id="searchbar" class="form-control rounded" placeholder="Search Products..."/>
+            <span class="input-group-text border-0" id="search-addon">
+                <i class="bi bi-search"></i>
+            </span>
+        </div>
+    </div>
+
     @foreach(var product in Model)
-    {
+    {  
         <div class="col-lg-3 col-sm-6">
             <div class="row p-2">
                 <div class="col-12 p-1">
@@ -13,6 +42,7 @@
                                 <div class="pl-1">
                                     <p class="card-title h5 text-black opacity-75 text-uppercase text-center">@product.ProductName</p>
                                     <p class="card-title text-dark text-center">@product.Description</p>
+                                    <p id="category" class="card-title text-dark text-center"><b>Category - @product.Category.CategoryName</b></p>
                                     <p class="card-title text-warning text-center"><b>Rs.</b> <b>@product.Price</b><b>.00</b></p>
                                 </div>
                             </div>
@@ -27,8 +57,32 @@
                 </div>
             </div>
         </div>
+    }
+        <div class="nodata text-center m-4" style="display:none">
+            <h4>
+            <i class="bi bi-exclamation-triangle"></i> No Data Found
+            </h4>
+        </div>
+</div>
 
 
+<script>
+
+    function search_products() {
+        let input = document.getElementById('searchbar').value.toLowerCase();
+        let products = document.querySelectorAll('.row.p-2'); // Selecting the parent row
+
+        products.forEach(product => {
+            let productName = product.querySelector('#category').innerText.toLowerCase();
+
+            if (productName.includes(input)) {
+                product.parentElement.style.display = "block"; // Show the whole card
+            } else {
+                product.parentElement.style.display = "none";
+                document.querySelector('.nodata').style.display = "block";
+            }
+        });
     }
 
-</div>
+
+</script>

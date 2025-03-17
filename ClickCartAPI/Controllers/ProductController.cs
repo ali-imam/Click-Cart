@@ -20,7 +20,7 @@ namespace ClickCartAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProduct()
         {
-            var product = await _db.Products.ToListAsync();
+            var product = await _db.Products.Include(product=>product.Category).ToListAsync();
 
             return Ok(product);
 

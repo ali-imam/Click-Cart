@@ -42,6 +42,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                     product = data;
                 }
             }
+
             return View(product);
         }
 

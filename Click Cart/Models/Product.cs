@@ -13,7 +13,9 @@ namespace Click_Cart.Models
 
         [JsonIgnore]
         public Category? Category { get; set; }
+        [Required, MinLength(3), MaxLength(20)]
         public string ProductName { get; set; }
+        [Required, MinLength(3), MaxLength(50)]
         public string Description { get; set; }
         public string Price { get; set; }
         public int StockQuantity { get; set; }

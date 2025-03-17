@@ -1,9 +1,4 @@
 ﻿
-@* <div> *@
-@*     <h1> *@
-@*         login page *@
-@*     </h1> *@
-@* </div> *@
 
 @model Click_Cart.Models.User
 
@@ -26,7 +21,7 @@
                 <div class="border p-3 d-flex flex-column">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-floating py-2 col-12">
-                        <input asp-for="Email" class="form-control border-0 shadow bg-light" autofocus />
+                        <input type="text" asp-for="Email" class="form-control border-0 shadow bg-light" autofocus />
                         <label asp-for="Email" class="ms-2">Email Id</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>

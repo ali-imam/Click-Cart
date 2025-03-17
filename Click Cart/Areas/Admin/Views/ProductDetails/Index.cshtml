@@ -1,6 +1,5 @@
 ﻿@using Click_Cart.Helpers
 
-
 <div class="card shadow border-0 my-4 bg-light">
     <div class="card-header bg-primary bg-gradient ">
         <div class="row">
@@ -28,7 +27,6 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>Quantity</th>
-                        <th>Product Image</th>
                         <th>Category</th>
                         <th>Action</th>
                     </tr>
@@ -42,8 +40,7 @@
                             <td>@obj.Description</td>
                             <td>@obj.Price</td>
                             <td>@obj.StockQuantity</td>
-                            <td>@obj.ProductImg</td>
-                            <td>@obj.CategoryId</td>
+                            <td>@obj.Category.CategoryName</td>
                             <td>
                                 @{
                                     var encryptedId = EncryptionHelper.Encrypt(@obj.ProductId.ToString());
