@@ -65,7 +65,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                     }).ToList();
                 }
             }
-            // Convert teams to SelectListItem for dropdown
+            // Convert category to SelectListItem for dropdown
             ViewData["Category"] = categoryName;
 
             return View();
@@ -158,7 +158,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                     }).ToList();
                 }
             }
-            // Convert teams to SelectListItem for dropdown
+            // Convert Category to SelectListItem for dropdown
             ViewData["Category"] = categoryName;
             return View(product);
         }
@@ -277,7 +277,7 @@ namespace Click_Cart.Areas.Admin.Controllers
                     }).ToList();
                 }
             }
-            // Convert teams to SelectListItem for dropdown
+            // Convert Category to SelectListItem for dropdown
             ViewData["Category"] = categoryName;
             return View(product);
         }

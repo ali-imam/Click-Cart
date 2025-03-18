@@ -4,25 +4,9 @@
 <div class="row pb-3">
 
     <div class="d-flex align-items-center mt-3 ">
-      @* <div class="justify-content-center rounded w-50 pr-4"> *@
-      @*       <select class="form-select" aria-label="Default select example"> *@
-      @*           <option selected>Choose Category</option> *@
-      @*           <option value="1">one</option> *@
-      @*           <option value="2">Two</option> *@
-      @*           <option value="3">Three</option> *@
-      @*       </select> *@
-      @*   </div>  *@
-
-        @* <div> *@
-        @*     <select asp-for="CategoryId" asp-items="@ViewData["Category"] as IEnumerable<SelectListItem>" class="form-control border-0 shadow"> *@
-        @*         <option disabled value="">-- Select Category --</option> *@
-        @*     </select> *@
-        @*     <label asp-for="CategoryId">Category Name <span class="text-danger h4">*</label> *@
-        @*     <span asp-validation-for="CategoryId" class="text-danger"></span> *@
-        @* </div>  *@
 
         <div class="input-group rounded  justify-content-center w-50 pl-4">
-            <input type="search" onkeyup="search_products()" id="searchbar" class="form-control rounded" placeholder="Search Products..."/>
+            <input type="text" onkeyup="search_products()" id="searchbar" class="form-control rounded" placeholder="Search Products..." />
             <span class="input-group-text border-0" id="search-addon">
                 <i class="bi bi-search"></i>
             </span>
@@ -58,11 +42,11 @@
             </div>
         </div>
     }
-        <div class="nodata text-center m-4" style="display:none">
-            <h4>
+    <div class="nodata text-center m-4" style="display:none">
+        <h4>
             <i class="bi bi-exclamation-triangle"></i> No Data Found
-            </h4>
-        </div>
+        </h4>
+    </div>
 </div>
 
 
@@ -77,12 +61,13 @@
 
             if (productName.includes(input)) {
                 product.parentElement.style.display = "block"; // Show the whole card
-            } else {
+                document.querySelector('.nodata').style.display = "none";
+            }
+            else {
                 product.parentElement.style.display = "none";
                 document.querySelector('.nodata').style.display = "block";
             }
         });
     }
-
 
 </script>

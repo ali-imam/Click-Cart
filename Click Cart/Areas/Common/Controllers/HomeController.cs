@@ -31,23 +31,6 @@ namespace Click_Cart.Areas.Common.Controllers
             }
 
 
-            //HttpResponseMessage Categoryresponse = client.GetAsync(CategoryURL).Result;
-            //if (Categoryresponse.IsSuccessStatusCode)
-            //{
-            //    string Categorycontent = Categoryresponse.Content.ReadAsStringAsync().Result;
-            //    var data = JsonConvert.DeserializeObject<List<Category>>(Categorycontent);
-            //    if (data != null)
-            //    {
-            //        categoryName = data.Select(t => new SelectListItem
-            //        {
-            //            Text = t.CategoryName,
-            //            Value = t.CategoryId.ToString()
-            //        }).ToList();
-            //    }
-            //}
-            //// Convert teams to SelectListItem for dropdown
-            //ViewData["Category"] = categoryName;
-
             return View(product);
         }
     }
