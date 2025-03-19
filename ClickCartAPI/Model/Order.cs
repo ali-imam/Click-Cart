@@ -11,15 +11,14 @@ namespace ClickCartAPI.Model
         public int UserId { get; set; }
         [ForeignKey("UserId")]
 
-        [JsonIgnore]
         public User? User { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
 
-        [JsonIgnore]
         public Product? Product { get; set; }
         public DateTime? OrderDate { get; set; } = DateTime.Now;
         public int Quantity { get; set; }
         public string Status { get; set; }
+        public string OrderCode { get; set; }
     }
 }

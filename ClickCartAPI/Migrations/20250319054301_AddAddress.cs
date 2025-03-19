@@ -5,23 +5,23 @@
 namespace ClickCartAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class DataAdded : Migration
+    public partial class AddAddress : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
-                table: "Carts",
-                columns: new[] { "CartId", "Price", "ProductId", "ProductImg", "ProductName", "Quantity", "UserId" },
-                values: new object[] { 1, "2200", 1, "/images/products/first.webp", "Watch", 2, 2 });
+                table: "Addresses",
+                columns: new[] { "AddressId", "City", "Country", "State", "Street", "UserId", "ZipCode" },
+                values: new object[] { 1, "Mumbai", "India", "Maharashtra", "Colaba", 1, 400614 });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(
-                table: "Carts",
-                keyColumn: "CartId",
+                table: "Addresses",
+                keyColumn: "AddressId",
                 keyValue: 1);
         }
     }

@@ -49,7 +49,7 @@ namespace Click_Cart.Areas.Common.Controllers
                 if (data != null)
                 {
                     user = data.Find(e => e.Email == LoginObj.Email);
-                    if (user != null && user.Password.Equals(HashPassword(LoginObj.Password)))
+                    if (user != null && user.Password.Equals(LoginObj.Password))
                     {
                         if (user.Role == "Admin")
                         {

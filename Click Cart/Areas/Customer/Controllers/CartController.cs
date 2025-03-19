@@ -133,8 +133,10 @@ namespace Click_Cart.Areas.Customer.Controllers
                 }
                 
             }
+            // Generate a unique OrderCode for this order
+            string orderCode = "ORD" + DateTime.Now.Ticks;
 
-            foreach(var cartitem in cart)
+            foreach (var cartitem in cart)
             {
                 // Create Order object
                 var orderItem = new Order
@@ -143,11 +145,12 @@ namespace Click_Cart.Areas.Customer.Controllers
                     ProductId = cartitem.ProductId,
                     Quantity = cartitem.Quantity,
                     OrderDate = DateTime.Today,
-                    Status = "In Progress"
+                    Status = "In Progress",
+                    OrderCode = orderCode  // Use the same OrderCode for all products in this order
                 };
 
 
-                 
+
 
                 var jsonData = JsonConvert.SerializeObject(orderItem);
                 StringContent content1 = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -160,7 +163,7 @@ namespace Click_Cart.Areas.Customer.Controllers
                     return BadRequest($"Failed to place order for Product ID {cartitem.ProductId}");
                 }
 
-                // **Delete the cart item after placing the order**
+                //Delete the cart item after placing the order
                 HttpResponseMessage deleteResponse = client.DeleteAsync($"{CartURL}+{cartitem.CartId}").Result;
                 if (!deleteResponse.IsSuccessStatusCode)
                 {

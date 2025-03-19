@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClickCartAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250312051500_orderTableUpdate")]
-    partial class orderTableUpdate
+    [Migration("20250319054301_AddAddress")]
+    partial class AddAddress
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,15 +98,6 @@ namespace ClickCartAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Carts");
-
-                    b.HasData(
-                        new
-                        {
-                            CartId = 1,
-                            ProductId = 1,
-                            Quantity = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.Category", b =>
@@ -119,7 +110,8 @@ namespace ClickCartAPI.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("CategoryId");
 
@@ -140,6 +132,10 @@ namespace ClickCartAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<string>("OrderCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime2");
@@ -169,45 +165,11 @@ namespace ClickCartAPI.Migrations
                         new
                         {
                             OrderId = 1,
+                            OrderCode = "ASDFFFF",
                             ProductId = 1,
                             Quantity = 2,
                             Status = "Shipped",
                             UserId = 1
-                        });
-                });
-
-            modelBuilder.Entity("ClickCartAPI.Model.Payment", b =>
-                {
-                    b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("Payments");
-
-                    b.HasData(
-                        new
-                        {
-                            PaymentId = 1,
-                            OrderId = 1,
-                            PaymentMethod = "UPI",
-                            PaymentStatus = "Pending"
                         });
                 });
 
@@ -224,7 +186,8 @@ namespace ClickCartAPI.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Price")
                         .IsRequired()
@@ -235,7 +198,8 @@ namespace ClickCartAPI.Migrations
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");
@@ -277,7 +241,8 @@ namespace ClickCartAPI.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -285,7 +250,8 @@ namespace ClickCartAPI.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("UserId");
 
@@ -359,17 +325,6 @@ namespace ClickCartAPI.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ClickCartAPI.Model.Payment", b =>
-                {
-                    b.HasOne("ClickCartAPI.Model.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("ClickCartAPI.Model.Product", b =>

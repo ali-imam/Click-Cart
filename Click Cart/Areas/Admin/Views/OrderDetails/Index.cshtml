@@ -16,8 +16,8 @@
                 <thead>
                     <tr>
                         <th>Order Id</th>
-                        <th>User Id</th>
-                        <th>Product Id</th>
+                        <th>User Name</th>
+                        <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Order Date</th>
                         <th>Status</th>
@@ -28,11 +28,11 @@
                     @foreach (var obj in Model)
                     {
                         <tr>
-                            <td>@obj.OrderId</td>
-                            <td>@obj.UserId</td>
-                            <td>@obj.ProductId</td>
+                            <td>@obj.OrderCode</td>
+                            <td>@obj.User.UserName</td>
+                            <td>@obj.Product.ProductName</td>
                             <td>@obj.Quantity</td>
-                            <td>@obj.OrderDate</td>
+                            <td>@obj.OrderDate.ToString("dd/MM/yyyy")</td>
                             <td>@obj.Status</td>
                             <td>
                                 @{

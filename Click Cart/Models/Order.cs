@@ -21,5 +21,6 @@ namespace Click_Cart.Models
         public DateTime? OrderDate { get; set; } = DateTime.Now;
         public int Quantity { get; set; }
         public string Status { get; set; }
+        public string OrderCode { get; set; }
     }
 }

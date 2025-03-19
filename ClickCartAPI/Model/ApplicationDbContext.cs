@@ -29,9 +29,9 @@ namespace ClickCartAPI.Model
                 new { ProductId = 1, CategoryId = 1, ProductName = "watch", Description = "ifhiehfoiwehf", Price = "2200", StockQuantity = 20, ProductImg = "/images/products/first.webp" }
                 );
 
-            modelBuilder.Entity<Order>().HasData(
-                new { OrderId = 1, UserId = 1, ProductId = 1, Quantity = 2, Status = "Shipped" }
-                );
+            //modelBuilder.Entity<Order>().HasData(
+            //    new { OrderId = 1, UserId = 1, ProductId = 1, Quantity = 2, Status = "Shipped", OrderCode = "ASDFFFF" }
+            //    );
             modelBuilder.Entity<Category>().HasData(
                 new { CategoryId = 1, CategoryName = "Fashion" }
                 );
